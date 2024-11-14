@@ -5,12 +5,35 @@
 //-------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Generic;   // Importante para la consigna. Get público y set privado, en la propiedad de solo lectura bool Coocked
 
 namespace Full_GRASP_And_SOLID
 {
     public class Recipe : IRecipeContent // Modificado por DIP
     {
+        
+        private bool cooked = false;    // Propiedad cooked.
+        public bool Cooked
+        {
+            get { return cooked; }     // De modo de que sea de solo lectura, le añado un Get pero no un Set. Le debo preguntar a Santiago si esto esta bien.
+        }
+
+        public int GetCookTime()
+        {
+            int totalCookTime = 0;
+            foreach (BaseStep step in this.steps)
+            {
+                totalCookTime += step.Time;
+            }
+            return totalCookTime;
+        }
+
+        internal void MarkAsCooked()    // Metodo que esta en el patron Adapter.
+        {
+            this.cooked = true;
+        }
+        
+        
         // Cambiado por OCP
         private IList<BaseStep> steps = new List<BaseStep>();
 
