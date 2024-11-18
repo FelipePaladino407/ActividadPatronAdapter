@@ -11,11 +11,18 @@ namespace Full_GRASP_And_SOLID
 {
     public class Recipe : IRecipeContent // Modificado por DIP
     {
-        
-        private bool cooked = false;    // Propiedad cooked.
+
+        private bool cooked = false;
         public bool Cooked
         {
-            get { return cooked; }     // De modo de que sea de solo lectura, le añado un Get pero no un Set. Le debo preguntar a Santiago si esto esta bien.
+            get => this.cooked;   // No lo coloco un "set", propio de que la propiedad cooked es de solo lectura.
+        }
+
+        public void Cook()
+        {
+            RecipeAdapter bota = new RecipeAdapter(this);
+            CountdownTimer countdown = new CountdownTimer();
+            countdown.Register(GetCookTime(), bota);
         }
 
         public int GetCookTime()
@@ -28,7 +35,7 @@ namespace Full_GRASP_And_SOLID
             return totalCookTime;
         }
 
-        internal void MarkAsCooked()    // Metodo que esta en el patron Adapter.
+        internal void MarkAsCooked()   
         {
             this.cooked = true;
         }
